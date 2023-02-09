@@ -4,3 +4,4 @@
 .vscodeignore
 node_modules/**/*
 .vscode
+**/*.map
