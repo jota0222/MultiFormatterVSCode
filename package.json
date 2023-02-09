@@ -1,9 +1,9 @@
 {
     "name": "multi-formatter",
-    "displayName": "Multi Formatter",
+    "displayName": "Multiple Formatters",
     "publisher": "Jota0222",
     "version": "1.1.0",
-    "description": "It allows to use multiple formatters in just one run for Visual Studio Code",
+    "description": "It allows to use multiple formatters as a composite formatter in just one run in Visual Studio Code",
     "repository": {
         "url": "https://github.com/jota0222/MultiFormatterVSCode.git"
     },
@@ -16,7 +16,8 @@
         "formatter",
         "vscode",
         "multiple",
-        "multi"
+        "multi",
+        "composite"
     ],
     "categories": [
         "Formatters"
