@@ -55,6 +55,7 @@ This extension will appear as a formatter for the supported languages (see "Supp
 ### Running extesion defined actions
 
 This extesion comes with 2 actions that you can configure the way you want and add the shortcuts you want, so they can run appart of the formatter itself. Their names are **`MultiFormat Document`** and **`MultiFormat Selection`.**
+
 ![MultiFormat available actions](image/README/MultiFormat%20available%20actions.png)
 
 ## Supported languages and frameworks
