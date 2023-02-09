@@ -3,7 +3,7 @@
     "displayName": "Multi Formatter",
     "publisher": "Jota0222",
     "version": "1.1.0",
-    "description": "It allows to use multiple formatter options in just one run for Visual Studio Code",
+    "description": "It allows to use multiple formatters in just one run for Visual Studio Code",
     "repository": {
         "url": "https://github.com/jota0222/MultiFormatterVSCode.git"
     },
