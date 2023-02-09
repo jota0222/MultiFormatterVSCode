@@ -12,7 +12,7 @@ You can find the extension in the Visual Studio Code extension store, however, y
 
 ```bash
 npm run build
-code --install-extension multi-formatter-1.0.0.vsix
+code --install-extension multi-formatter-1.1.0.vsix
 ```
 
 ## Configuration

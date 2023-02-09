@@ -29,8 +29,7 @@ export default class Formatter {
         this.logger = vsWindow.createOutputChannel(this.OUTPUT_CHANNEL_NAME);
         
         this.formatAction = this.FORMAT_DOCUMENT_ACTION;
-        const extensionConfig = workspace.getConfiguration('multiFormatter');
-        this.formatters = extensionConfig.get<string[]>('formatterList', []);
+        this.formatters = [];
     }
 
     init(context: ExtensionContext) {
@@ -90,7 +89,7 @@ export default class Formatter {
             throw new Error('There is no config we can update');
         }
 
-        this.defaultFormatter = this.config.get<string>('defaultFormatter',);
+        this.defaultFormatter = this.config.get<string>('defaultFormatter');
 
         const extensionConfig = workspace.getConfiguration('multiFormatter', document);
         this.formatters = extensionConfig.get<string[]>('formatterList', []);
