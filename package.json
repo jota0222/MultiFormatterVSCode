@@ -1,0 +1,75 @@
+{
+    "name": "multi-formatter",
+    "displayName": "Multi Formatter",
+    "publisher": "Jota0222",
+    "version": "1.0.0",
+    "description": "It allows to use multiple formatter options in just one run for Visual Studio Code",
+    "repository": {
+        "url": "https://github.com/jota0222/MultiFormatterVSCode.git"
+    },
+    "icon": "image/icon.png",
+    "main": "./out/extension.js",
+    "engines": {
+        "vscode": "^1.75.0"
+    },
+    "keywords": [
+        "formatter",
+        "vscode",
+        "multiple",
+        "multi"
+    ],
+    "categories": [
+        "Formatters"
+    ],
+    "scripts": {
+        "watch": "tsc --watch -p ./",
+        "build": "tsc && vsce package",
+        "vscode:prepublish": "tsc"
+    },
+    "author": "jota0222",
+    "license": "GNU GPLv3",
+    "pricing": "Free",
+    "contributes": {
+        "commands": [
+            {
+                "command": "multiFormatter.formatSelection",
+                "title": "MultiFormat Selection"
+            },
+            {
+                "command": "multiFormatter.formatDocument",
+                "title": "MultiFormat Document"
+            }
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "Multi Formatter",
+            "properties": {
+                "multiFormatter.formatterList": {
+                    "type": "array",
+                    "default": [],
+                    "description": "Ordered list of formatters",
+                    "scope": "language-overridable"
+                }
+            }
+        }
+    },
+    "activationEvents": [
+        "onLanguage:javascript",
+        "onLanguage:typescript",
+        "onLanguage:python",
+        "onLanguage:html",
+        "onLanguage:scss",
+        "onLanguage:css",
+        "onLanguage:vue",
+        "onLanguage:vue-html",
+        "onLanguage:vue-postcss",
+        "onLanguage:javascriptreact",
+        "onLanguage:typescriptreact",
+        "onLanguage:php"
+    ],
+    "devDependencies": {
+        "@types/vscode": "^1.75.0",
+        "typescript": "^4.9.5",
+        "@vscode/vsce": "^2.17.0"
+    }
+}
