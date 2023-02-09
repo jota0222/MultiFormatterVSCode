@@ -1,12 +1,15 @@
 export default [
-    'php',
     'javascript',
     'typescript',
-    'html',
     'python',
-    'vue',
-    'css',
+    'html',
     'scss',
-    'jsx',
-    'javascriptreact'
+    'css',
+    'vue',
+    'vue-html',
+    'vue-postcss',
+    'javascriptreact',
+    'typescriptreact',
+    'haskell',
+    'php',
 ]

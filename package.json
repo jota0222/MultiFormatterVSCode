@@ -65,6 +65,7 @@
         "onLanguage:vue-postcss",
         "onLanguage:javascriptreact",
         "onLanguage:typescriptreact",
+        "onLanguage:haskell",
         "onLanguage:php"
     ],
     "devDependencies": {
