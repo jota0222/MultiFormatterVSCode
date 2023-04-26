@@ -67,7 +67,8 @@
         "onLanguage:javascriptreact",
         "onLanguage:typescriptreact",
         "onLanguage:haskell",
-        "onLanguage:php"
+        "onLanguage:php",
+        "onLanguage:erb"
     ],
     "devDependencies": {
         "@types/vscode": "^1.75.0",
