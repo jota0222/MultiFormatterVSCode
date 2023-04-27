@@ -1,79 +1,65 @@
-# Multi Formatter Extension
+# Multi Format Extension
 
 **_VisualStudio Code Extension_**
 
 ## About the Extension
 
-With this extension you will be able to use more than one formatter for the same language, which make it easier to keep your code as neat as possible when one formatter do different things than others. With this extension you will be able to run, for example, the three: Prettier, Eslint and Visual Studio Code formatters in just one run and in the order you prefer to get the best results.
+With this extension you'll be able to use more than one formatter for the same language, which make it easier to keep your code as neat as possible when one formatter do different things than others. For example, you could run three formatters in a row—Prettier, Eslint and Visual Studio Code—in just one run and in the order you prefer to get the best results.
 
 ## Installation
 
-You can find the extension in the Visual Studio Code extension store, however, you can build it and install it yourself by running following commands:
+You can find the extension in the Visual Studio Code extension store; you can build it and install it yourself by running following commands:
 
 ```bash
 npm run build
-code --install-extension multi-formatter-1.1.0.vsix
+code --install-extension multi-formatter-x.x.x.vsix
 ```
+
+Where `x.x.x` is the current version number.
 
 ## Configuration
 
-When the extension is installed for the first time, you will need to configure the order in which the formatters will run, so, for example for JavaScript and PHP you can add the following to your `settings.json` or your `*.code-workspace` file under the `settings` attribute:
+After the extension is installed, you'll need to configure two things: the languages you want to enable multi-format support for, and the formatters to run for each language.
+
+To accomplish the first task, set a key-value pair that identifies the languages you want this extension to be activated on:
+
+```jsonc
+"multi-format.languages": ["erb", "javascript", "ruby"],
+```
+
+Then, you'd define the formatters you want to run per-language:
+
+the order in which the formatters will run, so, for example for JavaScript and PHP you can add the following to your `settings.json` or your `*.code-workspace` file under the `settings` attribute:
 
 ```json
 {
-  "[javascript]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features",
-    "multiFormatter.formatterList": [
-      "dbaeumer.vscode-eslint",
-      "vscode.typescript-language-features"
-    ]
-  },
-  "[php]": {
-    "editor.defaultFormatter": "Jota0222.multi-formatter",
-    "multiFormatter.formatterList": [
-      "wongjn.php-sniffer",
-      "bmewburn.vscode-intelephense-client"
-    ]
+  "[erb]": {
+    "editor.defaultFormatter": "aliariff.vscode-erb-beautify",
+    "multi-format.formatters": [
+      "esbenp.prettier-vscode",
+      "manuelpuyol.erb-linter"
+    ],
+    "editor.formatOnSave": true
   }
 }
 ```
 
-So, for the example above, **Eslint** will run first than the **TypeScript** formatter for **Javascript** files, and **PHP Sniffer** will run before **Intelephense** formatter for **PHP** files. If you don't provide any formatter, the extension will use the default one.
+In this example, `"aliariff.vscode-erb-beautify"` is set as the default for ERB files. After it executes, the `multi-format.formatters` will run in sequence—first `"esbenp.prettier-vscode"`, and then `"manuelpuyol.erb-linter"`. Note that even if a `defaultFormatter` was not defined, the sequence of `"multi-format.formatters"` would still execute.
 
-Also, as you can see in the examples, you can also set this extension as the default formatter (`Jota0222.multi-formatter`) but it will not do a thing unless you have another formatter in the list.
+## Running the extension
 
-You can get the name of the formatters to use from the available options that appear when editing the `editor.defaultFormatter` directly from the json file.
-
-## Execution
-
-Once its configured you have 2 ways to run this formatter:
+Whenever you save a document, the MultiFormat extension will run your formatters for you. There are additionally two more ways to run the extension.
 
 ### Using it as language formatter
 
-This extension will appear as a formatter for the supported languages (see "Supported languages and frameworks" section below), so you will be able to run it using the VSCode integrated features like the shortcut `Alt` + `Shift` + `F` or the actions `Format document with...`, `Format Selection with...`, `Format on save`, etc.
+This extension will appear as a formatter for the supported languages, so you'll be able to run it using the VSCode integrated features like the shortcut `Alt` + `Shift` + `F` or the actions `Format document with...`, `Format Selection with...`, `Format on save`, etc.
 
 ### Running extesion defined actions
 
-This extesion comes with 2 actions that you can configure the way you want and add the shortcuts you want, so they can run appart of the formatter itself. Their names are **`MultiFormat Document`** and **`MultiFormat Selection`.**
+This extesion comes with two actions that you can configure however you want and add the shortcuts you want, so they can run appart of the formatter itself. Their names are **`MultiFormat Document`** and **`MultiFormat Selection`.**
 
 ![MultiFormat available actions](image/README/MultiFormat%20available%20actions.png)
 
-## Supported languages and frameworks
-
-- CSS
-- ERB
-- Haskell
-- HTML
-- JavaScript
-- PHP
-- Python
-- SCSS
-- TypeScript
-- React (JSX and TSX)
-- Vue
-
-It's probably easy to add more of them to the list as this depends on other fomatters and it's not a formatter by itself, so feel free to add by yourself any language you want in the `package.json` under `activationEvents` and also in the file `src\supported-languages.ts`, test it and create a pull request to this repo 🧐👍.
-
 # License
 
-This code is licensed under [GNU GPLv3](./LICENSE)
+This code is licensed under [GNU GPLv3](./LICENSE), and was originally forked from https://github.com/jota0222/MultiFormatterVSCode.

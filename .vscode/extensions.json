@@ -1,21 +1,5 @@
 {
-    "recommendations": [
-        "editorconfig.editorconfig",
-        "sonarsource.sonarlint-vscode",
-        "yatki.vscode-surround",
-        "xabikos.javascriptsnippets",
-        "visualstudioexptteam.vscodeintellicode-completions",
-        "visualstudioexptteam.intellicode-api-usage-examples",
-        "visualstudioexptteam.vscodeintellicode",
-        "eamodio.gitlens",
-        "dbaeumer.vscode-eslint",
-        "moshfeu.compare-folders",
-        "streetsidesoftware.code-spell-checker",
-        "wmaurer.change-case",
-        "atishay-jain.all-autocomplete",
-        "nicoespeon.abracadabra",
-        "ryu1kn.partial-diff",
-        "tabnine.tabnine-vscode",
-        "gregorbiswanger.json2ts"
-    ]
+  // See http://go.microsoft.com/fwlink/?LinkId=827846
+  // for the documentation about the extensions.json format
+  "recommendations": ["dbaeumer.vscode-eslint"]
 }

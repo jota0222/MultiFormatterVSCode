@@ -1,11 +1,11 @@
 {
-    "name": "multi-formatter",
+    "name": "multi-format",
     "displayName": "Multiple Formatters",
-    "publisher": "Jota0222",
-    "version": "1.1.0",
-    "description": "It allows to use multiple formatters as a composite formatter in just one run in Visual Studio Code",
+    "publisher": "gjtorikian",
+    "version": "0.0.1",
+    "description": "This extension allows multiple formatters to run in serial on a document (or a selection of text) in Visual Studio Code.",
     "repository": {
-        "url": "https://github.com/jota0222/MultiFormatterVSCode.git"
+        "url": "https://github.com/gjtorikian/multi-format.git"
     },
     "icon": "image/icon.png",
     "main": "./out/extension.js",
@@ -13,11 +13,13 @@
         "vscode": "^1.75.0"
     },
     "keywords": [
-        "formatter",
+        "format",
         "vscode",
         "multiple",
         "multi",
-        "composite"
+        "composite",
+        "document",
+        "lint"
     ],
     "categories": [
         "Formatters"
@@ -27,48 +29,42 @@
         "build": "tsc && vsce package",
         "vscode:prepublish": "tsc"
     },
-    "author": "jota0222",
+    "author": "gjtorikian",
     "license": "GNU GPLv3",
     "pricing": "Free",
     "contributes": {
         "commands": [
             {
-                "command": "multiFormatter.formatSelection",
+                "command": "multiFormat.formatSelection",
                 "title": "MultiFormat Selection"
             },
             {
-                "command": "multiFormatter.formatDocument",
+                "command": "multiFormat.formatDocument",
                 "title": "MultiFormat Document"
             }
         ],
         "configuration": {
             "type": "object",
-            "title": "Multi Formatter",
+            "title": "MultiFormat",
             "properties": {
-                "multiFormatter.formatterList": {
+                "multi-format.formatters": {
                     "type": "array",
                     "default": [],
                     "description": "Ordered list of formatters",
                     "scope": "language-overridable"
+                },
+                "multi-format.languages": {
+                    "type": "array",
+                    "default": [
+                        "foo"
+                    ],
+                    "description": "List of languages to run MultiFormat on"
                 }
             }
         }
     },
     "activationEvents": [
-        "onLanguage:css",
-        "onLanguage:erb",
-        "onLanguage:haskell",
-        "onLanguage:html",
-        "onLanguage:javascript",
-        "onLanguage:javascriptreact",
-        "onLanguage:php",
-        "onLanguage:python",
-        "onLanguage:scss",
-        "onLanguage:typescript",
-        "onLanguage:typescriptreact",
-        "onLanguage:vue",
-        "onLanguage:vue-html",
-        "onLanguage:vue-postcss"
+        "onLanguage"
     ],
     "devDependencies": {
         "@types/vscode": "^1.75.0",

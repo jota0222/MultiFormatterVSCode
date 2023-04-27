@@ -10,12 +10,15 @@ import {
     WorkspaceConfiguration,
     ConfigurationTarget
 } from "vscode";
-import supportedLanguages from "./supported-languages";
 
 export default class Formatter {
     private readonly FORMAT_DOCUMENT_ACTION = 'editor.action.formatDocument';
     private readonly FORMAT_SELECTION_ACTION = 'editor.action.formatSelection';
-    private readonly OUTPUT_CHANNEL_NAME = 'Multi Formatter';
+    private readonly OUTPUT_CHANNEL_NAME = 'MultiFormat';
+    private readonly CONFIG_NAMESPACE = 'multi-format';
+    private readonly LANGUAGES_KEY_NAME = 'languages';
+    private readonly FORMATTERS_KEY_NAME = 'formatters';
+    private readonly DEFAULT_FORMATTER_KEY_NAME = 'defaultFormatter';
 
     private formatAction: string;
     private formatters: string[];
@@ -24,24 +27,29 @@ export default class Formatter {
     private defaultFormatter: string | undefined;
     private config: WorkspaceConfiguration = {} as WorkspaceConfiguration;
 
-
     constructor() {
         this.logger = vsWindow.createOutputChannel(this.OUTPUT_CHANNEL_NAME);
-        
+
         this.formatAction = this.FORMAT_DOCUMENT_ACTION;
         this.formatters = [];
     }
 
     init(context: ExtensionContext) {
         context.subscriptions.push(
-            commands.registerCommand('multiFormatter.formatSelection', this.formatSelection.bind(this)),
-            commands.registerCommand('multiFormatter.formatDocument', this.formatDocument.bind(this)),
+            commands.registerCommand('multiFormat.formatSelection', this.formatSelection.bind(this)),
+            commands.registerCommand('multiFormat.formatDocument', this.formatDocument.bind(this)),
         );
 
-        this.logger.appendLine(`Registering formatter for supported languages`);
-        languages.registerDocumentRangeFormattingEditProvider(supportedLanguages, {
+        const configuration = workspace.getConfiguration(this.CONFIG_NAMESPACE);
+        // All provided languages are valid picks
+        const known_languages = configuration.get<string[]>(this.LANGUAGES_KEY_NAME, []);
+
+        this.logger.appendLine(`Registering formatter for known languages`);
+        languages.registerDocumentRangeFormattingEditProvider(known_languages, {
             provideDocumentRangeFormattingEdits: this.selectFormattingAction.bind(this),
         });
+
+        workspace.onDidSaveTextDocument(this.onDidSaveTextDocument.bind(this));
     }
 
     selectFormattingAction(document: TextDocument, range: Range) {
@@ -56,6 +64,11 @@ export default class Formatter {
         }
 
         return [];
+    }
+
+    async onDidSaveTextDocument(_document: TextDocument) {
+        this.formatAction = this.FORMAT_DOCUMENT_ACTION;
+        await this.format();
     }
 
     async formatSelection() {
@@ -89,28 +102,23 @@ export default class Formatter {
             throw new Error('There is no config we can update');
         }
 
-        this.defaultFormatter = this.config.get<string>('defaultFormatter');
+        this.defaultFormatter = this.config.get<string>(this.DEFAULT_FORMATTER_KEY_NAME);
+        this.formatters = [];
 
-        const extensionConfig = workspace.getConfiguration('multiFormatter', document);
-        this.formatters = extensionConfig.get<string[]>('formatterList', []);
-        if (this.formatters.length === 0
-            && this.defaultFormatter
-            && this.defaultFormatter !== 'Jota0222.multi-formatter'
-        ) {
-            this.logger.appendLine(`Added the default formatter ${this.defaultFormatter} to the list`);
-            this.formatters.push(this.defaultFormatter);
-        }
+        const extensionConfig = workspace.getConfiguration(this.CONFIG_NAMESPACE, document);
+        const formatters = extensionConfig.get<string[]>(this.FORMATTERS_KEY_NAME, []);
+        this.formatters.push.apply(this.formatters, formatters);
     }
 
     async runFormatters() {
         for (const formatter of this.formatters) {
             this.logger.appendLine(`Executing ${this.formatAction} with ${formatter}`);
 
-            await this.config.update('defaultFormatter', formatter, ConfigurationTarget.Workspace, true);
+            await this.config.update(this.DEFAULT_FORMATTER_KEY_NAME, formatter, ConfigurationTarget.Workspace, true);
             await commands.executeCommand(this.formatAction);
         }
 
         // Return back to the original configuration
-        await this.config.update('defaultFormatter', this.defaultFormatter, ConfigurationTarget.Workspace, true);
+        await this.config.update(this.DEFAULT_FORMATTER_KEY_NAME, this.defaultFormatter, ConfigurationTarget.Workspace, true);
     }
 };

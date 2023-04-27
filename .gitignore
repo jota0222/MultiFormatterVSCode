@@ -1,6 +1,5 @@
-out/*
-node_modules/*
-.vscode/*
-!.vscode/launch.json
-!.vscode/extensions.json
+out
+dist
+node_modules
+.vscode-test/
 *.vsix
