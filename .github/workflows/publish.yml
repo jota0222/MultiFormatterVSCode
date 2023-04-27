@@ -1,0 +1,61 @@
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "package.json"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Check if version has been updated
+        id: check
+        uses: EndBug/version-check@v2
+
+      - name: Bail out of unchanged version
+        if: steps.check.outputs.changed == 'false'
+        run: exit 0
+
+      - name: Set up Node
+        uses: yettoapp/actions/setup-languages@main
+        with:
+          node: true
+
+      - name: Configure Git
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "Actions Auto Build"
+
+      - name: Get current version
+        id: version-label
+        run: |
+          VERSION=$(grep 'version":' package.json | head -n 1 | cut -d'"' -f4)
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Create tag
+        run: |
+          git tag -a v${{ steps.version-label.outputs.version }} -m "Release v${{ steps.version-label.outputs.version }}"
+          git push origin --tags
+
+      - name: "Generate release changelog"
+        uses: heinrichreimer/github-changelog-generator-action@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit & Push Changelog
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "Actions Auto Build"
+          git add -f CHANGELOG.md
+          git commit -m "docs: update changelog" || true
+          git push
+
+      - name: Publish to Visual Studio Marketplace
+        uses: HaaLeo/publish-vscode-extension@v1
+        with:
+          pat: ${{ secrets.GH_VS_MARKETPLACE_TOKEN }}
+          registryUrl: https://marketplace.visualstudio.com
