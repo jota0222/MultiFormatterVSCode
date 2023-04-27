@@ -2,7 +2,7 @@
     "name": "multi-format",
     "displayName": "MultiFormat",
     "publisher": "gjtorikian",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "This extension allows multiple formatters to run in serial on a document (or a selection of text) in Visual Studio Code.",
     "repository": {
         "url": "https://github.com/gjtorikian/multi-format.git"

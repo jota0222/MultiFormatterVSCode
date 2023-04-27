@@ -127,8 +127,10 @@ export default class Formatter {
             await commands.executeCommand(this.formatAction);
         }
 
-        // Return back to the original configuration
-        await this.config.update(this.DEFAULT_FORMATTER_KEY_NAME, this.defaultFormatter, ConfigurationTarget.Workspace, true);
+        // Return back to the default configuration (if it existed)
+        if (this.defaultFormatter) {
+            await this.config.update(this.DEFAULT_FORMATTER_KEY_NAME, this.defaultFormatter, ConfigurationTarget.Workspace, true);
+        }
         this.setRun(false);
     }
 };
