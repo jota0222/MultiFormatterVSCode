@@ -21,7 +21,9 @@ export default class Formatter {
     private readonly DEFAULT_FORMATTER_KEY_NAME = 'defaultFormatter';
 
     private formatAction: string;
+    private languages: string[];
     private formatters: string[];
+    private ran: boolean;
     private logger: OutputChannel;
 
     private defaultFormatter: string | undefined;
@@ -31,7 +33,9 @@ export default class Formatter {
         this.logger = vsWindow.createOutputChannel(this.OUTPUT_CHANNEL_NAME);
 
         this.formatAction = this.FORMAT_DOCUMENT_ACTION;
+        this.languages = [];
         this.formatters = [];
+        this.ran = false;
     }
 
     init(context: ExtensionContext) {
@@ -42,14 +46,20 @@ export default class Formatter {
 
         const configuration = workspace.getConfiguration(this.CONFIG_NAMESPACE);
         // All provided languages are valid picks
-        const known_languages = configuration.get<string[]>(this.LANGUAGES_KEY_NAME, []);
+        this.languages = configuration.get<string[]>(this.LANGUAGES_KEY_NAME, []);
 
         this.logger.appendLine(`Registering formatter for known languages`);
-        languages.registerDocumentRangeFormattingEditProvider(known_languages, {
+        languages.registerDocumentRangeFormattingEditProvider(this.languages, {
             provideDocumentRangeFormattingEdits: this.selectFormattingAction.bind(this),
         });
+    }
 
-        workspace.onDidSaveTextDocument(this.onDidSaveTextDocument.bind(this));
+    hasRan() {
+        return this.ran;
+    }
+
+    setRun(run: boolean) {
+        this.ran = run;
     }
 
     selectFormattingAction(document: TextDocument, range: Range) {
@@ -103,11 +113,10 @@ export default class Formatter {
         }
 
         this.defaultFormatter = this.config.get<string>(this.DEFAULT_FORMATTER_KEY_NAME);
-        this.formatters = [];
 
         const extensionConfig = workspace.getConfiguration(this.CONFIG_NAMESPACE, document);
         const formatters = extensionConfig.get<string[]>(this.FORMATTERS_KEY_NAME, []);
-        this.formatters.push.apply(this.formatters, formatters);
+        this.formatters = formatters;
     }
 
     async runFormatters() {
@@ -120,5 +129,6 @@ export default class Formatter {
 
         // Return back to the original configuration
         await this.config.update(this.DEFAULT_FORMATTER_KEY_NAME, this.defaultFormatter, ConfigurationTarget.Workspace, true);
+        this.setRun(false);
     }
 };
