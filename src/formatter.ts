@@ -33,15 +33,14 @@ export default class Formatter {
     }
 
     init(context: ExtensionContext) {
+        this.logger.appendLine(`Registering actions and formatter for supported languages`);
         context.subscriptions.push(
             commands.registerCommand('multiFormatter.formatSelection', this.formatSelection.bind(this)),
             commands.registerCommand('multiFormatter.formatDocument', this.formatDocument.bind(this)),
+            languages.registerDocumentRangeFormattingEditProvider(supportedLanguages, {
+                provideDocumentRangeFormattingEdits: this.selectFormattingAction.bind(this),
+            }),
         );
-
-        this.logger.appendLine(`Registering formatter for supported languages`);
-        languages.registerDocumentRangeFormattingEditProvider(supportedLanguages, {
-            provideDocumentRangeFormattingEdits: this.selectFormattingAction.bind(this),
-        });
     }
 
     selectFormattingAction(document: TextDocument, range: Range) {
