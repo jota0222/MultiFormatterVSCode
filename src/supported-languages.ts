@@ -12,5 +12,6 @@ export default [
     'typescriptreact',
     'haskell',
     'php',
-    'twig'
+    'twig',
+    'markdown',
 ]
