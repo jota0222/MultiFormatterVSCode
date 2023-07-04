@@ -14,4 +14,5 @@ export default [
     'php',
     'twig',
     'markdown',
+    'rust',
 ]
