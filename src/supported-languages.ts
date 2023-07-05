@@ -15,4 +15,5 @@ export default [
     'twig',
     'markdown',
     'rust',
+    'erb',
 ]

@@ -69,7 +69,8 @@
         "onLanguage:haskell",
         "onLanguage:php",
         "onLanguage:twig",
-        "onLanguage:markdown"
+        "onLanguage:markdown",
+		"onLanguage:erb"
     ],
     "devDependencies": {
         "@types/vscode": "^1.75.0",
