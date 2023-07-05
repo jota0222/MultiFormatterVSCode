@@ -70,7 +70,7 @@
         "onLanguage:php",
         "onLanguage:twig",
         "onLanguage:markdown",
-		"onLanguage:erb"
+        "onLanguage:erb"
     ],
     "devDependencies": {
         "@types/vscode": "^1.75.0",
