@@ -109,6 +109,7 @@ export default class Formatter {
             await commands.executeCommand(this.formatAction);
         }
 
+        await commands.executeCommand('workbench.action.files.save');
         // Return back to the original configuration
         await this.config.update('defaultFormatter', this.defaultFormatter, ConfigurationTarget.Workspace, true);
     }
