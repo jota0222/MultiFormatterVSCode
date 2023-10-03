@@ -16,4 +16,5 @@ export default [
     'markdown',
     'rust',
     'erb',
+    'postcss',
 ]
