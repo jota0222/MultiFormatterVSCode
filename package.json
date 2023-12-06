@@ -71,7 +71,8 @@
         "onLanguage:twig",
         "onLanguage:markdown",
         "onLanguage:rust",
-        "onLanguage:erb"
+        "onLanguage:erb",
+        "onLanguage:postcss"
     ],
     "devDependencies": {
         "@types/vscode": "^1.75.0",
