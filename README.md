@@ -62,21 +62,24 @@ This extesion comes with 2 actions that you can configure the way you want and a
 
 ## Supported languages and frameworks
 
-* JavaScript
-* TypeScript
-* React (JSX and TSX)
-* Vue
-* HTML
+* Astro
 * CSS
-* SCSS
-* Python
-* Haskell
-* PHP
-* Twig
-* Markdown
-* Rust
 * ERB
+* Haskell
+* HTML
+* JavaScript
+* Markdown
+* MDX
+* PHP
 * PostCSS
+* Python
+* React (JSX and TSX)
+* Rust
+* SCSS
+* Svelte
+* Twig
+* TypeScript
+* Vue
 
 It's probably easy to add more of them to the list as this depends on other fomatters and it's not a formatter by itself, so feel free to add by yourself any language you want in the `package.json` under `activationEvents` and also in the file `src\supported-languages.ts`, test it and create a pull request to this repo 🧐👍.
 
