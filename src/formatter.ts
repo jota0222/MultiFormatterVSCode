@@ -90,7 +90,6 @@ export default class Formatter {
         vsWindow.showTextDocument(document);
 
         this.config = workspace.getConfiguration('editor', document);
-        
         if (!this.config) {
             this.logger.appendLine(`There is no config we can update`);
             throw new Error('There is no config we can update');
