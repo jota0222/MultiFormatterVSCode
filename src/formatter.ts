@@ -69,7 +69,14 @@ export default class Formatter {
 
     private async format() {
         this.getFormattersForCurrentDocument();
-        await this.runFormatters();
+        try {
+            await this.runFormatters();
+        } catch (error) {
+            if (error instanceof Error && error.name === 'CodeExpectedError') {
+                return await this.runFormatters(ConfigurationTarget.Global)
+            }
+            throw error;
+        }
     }
 
     getFormattersForCurrentDocument() {
@@ -83,6 +90,7 @@ export default class Formatter {
         vsWindow.showTextDocument(document);
 
         this.config = workspace.getConfiguration('editor', document);
+        
         if (!this.config) {
             this.logger.appendLine(`There is no config we can update`);
             throw new Error('There is no config we can update');
@@ -101,11 +109,11 @@ export default class Formatter {
         }
     }
 
-    async runFormatters() {
+    async runFormatters(configurationTarget: ConfigurationTarget = ConfigurationTarget.Workspace) {
         for (const formatter of this.formatters) {
             this.logger.appendLine(`Executing ${this.formatAction} with ${formatter}`);
 
-            await this.config.update('defaultFormatter', formatter, ConfigurationTarget.Workspace, true);
+            await this.config.update('defaultFormatter', formatter, configurationTarget, true);
             await commands.executeCommand(this.formatAction);
         }
 
@@ -114,6 +122,6 @@ export default class Formatter {
         }
 
         // Return back to the original configuration
-        await this.config.update('defaultFormatter', this.defaultFormatter, ConfigurationTarget.Workspace, true);
+        await this.config.update('defaultFormatter', this.defaultFormatter, configurationTarget, true);
     }
 };
