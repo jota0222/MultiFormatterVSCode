@@ -52,11 +52,11 @@ Once its configured you have 2 ways to run this formatter:
 
 ### Using it as language formatter
 
-This extension will appear as a formatter for the supported languages (see "Supported languages and frameworks" section below), so you will be able to run it using the VSCode integrated features like the shortcut `Alt` + `Shift` + `F` or the actions `Format document with...`, `Format Selection with...`, `Format on save`, etc.
+This extension will show up as a formatter for the supported languages (see "Supported languages and frameworks" section below), so you will be able to run it using the VSCode integrated features like the shortcut `Alt` + `Shift` + `F` or the actions `Format document with...`, `Format Selection with...`, `Format on save`, etc.
 
-### Running extesion defined actions
+### Running extension defined actions
 
-This extesion comes with 2 actions that you can configure the way you want and add the shortcuts you want, so they can run appart of the formatter itself. Their names are **`MultiFormat Document`** and **`MultiFormat Selection`.**
+This extension comes with 2 actions that you can configure the way you want and add the shortcuts you want, so they can run appart of the formatter itself. Their names are **`MultiFormat Document`** and **`MultiFormat Selection`.**
 
 ![MultiFormat available actions](image/README/MultiFormat%20available%20actions.png)
 
