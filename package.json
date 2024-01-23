@@ -67,6 +67,7 @@
         "onLanguage:php",
         "onLanguage:postcss",
         "onLanguage:python",
+        "onLanguage:ruby",
         "onLanguage:rust",
         "onLanguage:scss",
         "onLanguage:svelte",

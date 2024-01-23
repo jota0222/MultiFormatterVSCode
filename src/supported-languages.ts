@@ -11,6 +11,7 @@ export default [
     'php',
     'postcss',
     'python',
+    'ruby',
     'rust',
     'scss',
     'svelte',
