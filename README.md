@@ -56,7 +56,7 @@ This extension will show up as a formatter for the supported languages (see "Sup
 
 ### Running extension defined actions
 
-This extension comes with 2 actions that you can configure the way you want and add the shortcuts you want, so they can run appart of the formatter itself. Their names are **`MultiFormat Document`** and **`MultiFormat Selection`.**
+This extension comes with 2 actions that you can configure the way you want and add the shortcuts you want, so they can run apart of the formatter itself. Their names are **`MultiFormat Document`** and **`MultiFormat Selection`.**
 
 ![MultiFormat available actions](image/README/MultiFormat%20available%20actions.png)
 
@@ -82,7 +82,7 @@ This extension comes with 2 actions that you can configure the way you want and 
 * Vue
 * Ruby
 
-It's probably easy to add more of them to the list as this depends on other fomatters and it's not a formatter by itself, so feel free to add by yourself any language you want in the `package.json` under `activationEvents` and also in the file `src\supported-languages.ts`, test it and create a pull request to this repo 🧐👍.
+It's probably easy to add more of them to the list as this depends on other formatters and it's not a formatter by itself, so feel free to add by yourself any language you want in the `package.json` under `activationEvents` and also in the file `src\supported-languages.ts`, test it and create a pull request to this repo 🧐👍.
 
 # License
 
