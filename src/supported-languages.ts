@@ -11,6 +11,7 @@ export default [
     'php',
     'postcss',
     'python',
+    'robotframework',
     'ruby',
     'rust',
     'scss',
