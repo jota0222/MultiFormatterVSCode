@@ -63,6 +63,7 @@
         "onLanguage:javascript",
         "onLanguage:javascriptreact",
         "onLanguage:markdown",
+        "onLanguage:matlab",
         "onLanguage:mdx",
         "onLanguage:php",
         "onLanguage:postcss",
