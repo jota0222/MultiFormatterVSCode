@@ -69,6 +69,7 @@ This extension comes with 2 actions that you can configure the way you want and 
 * HTML
 * JavaScript
 * Markdown
+* MATLAB
 * MDX
 * PHP
 * PostCSS

@@ -7,6 +7,7 @@ export default [
     'javascript',
     'javascriptreact',
     'markdown',
+    'matlab',
     'mdx',
     'php',
     'postcss',
