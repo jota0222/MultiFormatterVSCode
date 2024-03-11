@@ -74,14 +74,7 @@ export default class Formatter {
         }
 
         this.isFormatting = true;
-        this.getFormattersForCurrentDocument();
-        const {workspaceLanguageValue, workspaceFolderLanguageValue} = config.inspect('defaultFormatter')!;
-        const configurationTarget = (
-          typeof workspaceLanguageValue === 'string'                ? ConfigurationTarget.Workspace :
-          typeof workspaceFolderLanguageValue === 'string'          ? ConfigurationTarget.WorkspaceFolder :
-          /* typeof globalLanguageValue === 'string' | undefined */   ConfigurationTarget.Global
-        );
-        await this.runFormatters(configurationTarget);
+        await this.runFormatters();
         this.isFormatting = false;
     }
 
@@ -114,7 +107,18 @@ export default class Formatter {
         }
     }
 
-    async runFormatters(configurationTarget: ConfigurationTarget) {
+    async runFormatters() {
+        this.getFormattersForCurrentDocument();
+        
+        // decide which configuration file to update
+        // "?? {}" handles the defaultFormatter absent case
+        const {workspaceLanguageValue, workspaceFolderLanguageValue} = config.inspect('defaultFormatter') ?? {};
+        const configurationTarget = (
+          typeof workspaceLanguageValue === 'string'                ? ConfigurationTarget.Workspace :
+          typeof workspaceFolderLanguageValue === 'string'          ? ConfigurationTarget.WorkspaceFolder :
+          /* typeof globalLanguageValue === 'string' | undefined */   ConfigurationTarget.Global
+        );
+        
         for (const formatter of this.formatters) {
             this.logger.appendLine(`Executing ${this.formatAction} with ${formatter}`);
 
