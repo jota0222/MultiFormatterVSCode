@@ -126,7 +126,7 @@ export default class Formatter {
 
         if (this.config.get<boolean>('formatOnSave')) {
             this.logger.appendLine("Saving after formatting on save");
-            await commands.executeCommand('workbench.action.files.save');
+            await commands.executeCommand('workbench.action.files.saveWithoutFormatting');
         }
 
         // Return back to the original configuration

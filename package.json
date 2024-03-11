@@ -82,7 +82,7 @@
     ],
     "devDependencies": {
         "@types/vscode": "^1.75.0",
-        "@vscode/vsce": "^2.22.0",
+        "@vscode/vsce": "^2.24.0",
         "typescript": "^4.9.5"
     }
 }
