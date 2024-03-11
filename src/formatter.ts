@@ -59,12 +59,12 @@ export default class Formatter {
 
     async formatSelection() {
         this.formatAction = this.FORMAT_SELECTION_ACTION;
-        await this.format();
+        await this.runFormatters();
     }
 
     async formatDocument() {
         this.formatAction = this.FORMAT_DOCUMENT_ACTION;
-        await this.format();
+        await this.runFormatters();
     }
 
     private async format() {
@@ -75,16 +75,14 @@ export default class Formatter {
 
         this.isFormatting = true;
         this.getFormattersForCurrentDocument();
-        try {
-            await this.runFormatters();
-        } catch (error) {
-            if (error instanceof Error && error.name === "CodeExpectedError") {
-                return await this.runFormatters(ConfigurationTarget.Global);
-            }
-            throw error;
-        } finally {
-            this.isFormatting = false;
-        }
+        const {workspaceLanguageValue, workspaceFolderLanguageValue} = config.inspect('defaultFormatter')!;
+        const configurationTarget = (
+          typeof workspaceLanguageValue === 'string'                ? ConfigurationTarget.Workspace :
+          typeof workspaceFolderLanguageValue === 'string'          ? ConfigurationTarget.WorkspaceFolder :
+          /* typeof globalLanguageValue === 'string' | undefined */   ConfigurationTarget.Global
+        );
+        await this.runFormatters(configurationTarget);
+        this.isFormatting = false;
     }
 
     getFormattersForCurrentDocument() {
@@ -116,7 +114,7 @@ export default class Formatter {
         }
     }
 
-    async runFormatters(configurationTarget: ConfigurationTarget = ConfigurationTarget.Workspace) {
+    async runFormatters(configurationTarget: ConfigurationTarget) {
         for (const formatter of this.formatters) {
             this.logger.appendLine(`Executing ${this.formatAction} with ${formatter}`);
 
