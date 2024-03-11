@@ -59,12 +59,12 @@ export default class Formatter {
 
     async formatSelection() {
         this.formatAction = this.FORMAT_SELECTION_ACTION;
-        await this.runFormatters();
+        await this.format();
     }
 
     async formatDocument() {
         this.formatAction = this.FORMAT_DOCUMENT_ACTION;
-        await this.runFormatters();
+        await this.format();
     }
 
     private async format() {
