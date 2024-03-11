@@ -112,7 +112,7 @@ export default class Formatter {
         
         // decide which configuration file to update
         // "?? {}" handles the defaultFormatter absent case
-        const {workspaceLanguageValue, workspaceFolderLanguageValue} = config.inspect('defaultFormatter') ?? {};
+        const {workspaceLanguageValue, workspaceFolderLanguageValue} = this.config.inspect('defaultFormatter') ?? {};
         const configurationTarget = (
           typeof workspaceLanguageValue === 'string'                ? ConfigurationTarget.Workspace :
           typeof workspaceFolderLanguageValue === 'string'          ? ConfigurationTarget.WorkspaceFolder :
