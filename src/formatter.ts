@@ -110,9 +110,9 @@ export default class Formatter {
     async runFormatters() {
         this.getFormattersForCurrentDocument();
         
-        // decide which configuration file to update
-        // this check ensures we change defaultFormatter in the same configuration file where the user has it set
-        // the order of checks goes from the most specific to least specific
+        // The below check ensures we set editor.defaultFormatter in the same configuration location that it
+        // currently exists so we don't unexpectedly change where the user has their defaultFormatter set.
+        // The order of checks goes from the most specific to least specific location
         // "?? {}" handles the defaultFormatter absent case
         const {
             workspaceLanguageValue,
