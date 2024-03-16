@@ -74,17 +74,8 @@ export default class Formatter {
         }
 
         this.isFormatting = true;
-        this.getFormattersForCurrentDocument();
-        try {
-            await this.runFormatters();
-        } catch (error) {
-            if (error instanceof Error && error.name === "CodeExpectedError") {
-                return await this.runFormatters(ConfigurationTarget.Global);
-            }
-            throw error;
-        } finally {
-            this.isFormatting = false;
-        }
+        await this.runFormatters();
+        this.isFormatting = false;
     }
 
     getFormattersForCurrentDocument() {
@@ -116,11 +107,33 @@ export default class Formatter {
         }
     }
 
-    async runFormatters(configurationTarget: ConfigurationTarget = ConfigurationTarget.Workspace) {
+    async runFormatters() {
+        this.getFormattersForCurrentDocument();
+        
+        // The below check ensures we set editor.defaultFormatter in the same configuration location that it
+        // currently exists so we don't unexpectedly change where the user has their defaultFormatter set.
+        // The order of checks goes from the most specific to least specific location
+        // "?? {}" handles the defaultFormatter absent case
+        const {
+            workspaceLanguageValue,
+            workspaceValue,
+            workspaceFolderLanguageValue,
+            workspaceFolderValue,
+            globalLanguageValue
+        } = this.config.inspect('defaultFormatter') ?? {};
+        const [configurationTarget, isLanguageSpecific] = (
+            typeof workspaceLanguageValue === 'string'        ? [ConfigurationTarget.Workspace, true] : 
+            typeof workspaceValue === 'string'                ? [ConfigurationTarget.Workspace, false] :
+            typeof workspaceFolderLanguageValue === 'string'  ? [ConfigurationTarget.WorkspaceFolder, true] :
+            typeof workspaceFolderValue === 'string'          ? [ConfigurationTarget.WorkspaceFolder, false] :
+            typeof globalLanguageValue === 'string'           ? [ConfigurationTarget.Global, true] :
+            /* typeof globalValue === string|undefined */       [ConfigurationTarget.Global, false]
+        );
+        
         for (const formatter of this.formatters) {
             this.logger.appendLine(`Executing ${this.formatAction} with ${formatter}`);
 
-            await this.config.update("defaultFormatter", formatter, configurationTarget, true);
+            await this.config.update("defaultFormatter", formatter, configurationTarget, isLanguageSpecific);
             await commands.executeCommand(this.formatAction);
         }
 
@@ -130,6 +143,6 @@ export default class Formatter {
         }
 
         // Return back to the original configuration
-        await this.config.update("defaultFormatter", this.defaultFormatter, configurationTarget, true);
+        await this.config.update("defaultFormatter", this.defaultFormatter, configurationTarget, isLanguageSpecific);
     }
 }
