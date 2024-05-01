@@ -57,6 +57,7 @@
     "activationEvents": [
         "onLanguage:astro",
         "onLanguage:css",
+        "onLanguage:csharp",
         "onLanguage:erb",
         "onLanguage:haskell",
         "onLanguage:html",

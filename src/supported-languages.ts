@@ -1,6 +1,7 @@
 export default [
     'astro',
     'css',
+    'csharp',
     'erb',
     'haskell',
     'html',
