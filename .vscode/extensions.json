@@ -16,6 +16,7 @@
         "nicoespeon.abracadabra",
         "ryu1kn.partial-diff",
         "tabnine.tabnine-vscode",
-        "gregorbiswanger.json2ts"
+        "gregorbiswanger.json2ts",
+        "esbenp.prettier-vscode"
     ]
 }
