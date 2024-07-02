@@ -94,7 +94,7 @@ export default class Formatter {
             throw new Error("There is no config we can update");
         }
 
-        this.defaultFormatter = this.config.get<string>("defaultFormatter");
+        this.defaultFormatter = this.config.get<string | null>("defaultFormatter");
 
         const extensionConfig = workspace.getConfiguration("multiFormatter", document);
         this.formatters = extensionConfig.get<string[]>("formatterList", []);
@@ -118,12 +118,12 @@ export default class Formatter {
     getCurrentConfigurationTarget(): { configurationTarget: ConfigurationTarget; isLanguageSpecific: boolean } {
         // "?? {}" handles the case where no config was found
         const {
-            workspaceLanguageValue,
-            workspaceValue,
             workspaceFolderLanguageValue,
             workspaceFolderValue,
+            workspaceLanguageValue,
+            workspaceValue,
             globalLanguageValue,
-        } = this.config.inspect("defaultFormatter") ?? {};
+        } = this.config.inspect<string | null>("defaultFormatter") ?? {};
 
         if (workspaceFolderLanguageValue !== undefined || workspaceFolderValue !== undefined) {
             return {
