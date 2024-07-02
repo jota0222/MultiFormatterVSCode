@@ -2,7 +2,7 @@
     "name": "multi-formatter",
     "displayName": "Multiple Formatters",
     "publisher": "Jota0222",
-    "version": "1.5.4",
+    "version": "1.6.1",
     "description": "It allows to use multiple formatters as a composite formatter in just one run in Visual Studio Code",
     "repository": {
         "url": "https://github.com/jota0222/MultiFormatterVSCode.git"
@@ -82,7 +82,7 @@
     ],
     "devDependencies": {
         "@types/vscode": "^1.75.0",
-        "@vscode/vsce": "^2.24.0",
-        "typescript": "^4.9.5"
+        "@vscode/vsce": "^2.29.0",
+        "typescript": "^5.5.2"
     }
 }

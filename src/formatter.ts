@@ -21,7 +21,7 @@ export default class Formatter {
     private formatters: string[];
     private logger: OutputChannel;
 
-    private defaultFormatter: string | undefined;
+    private defaultFormatter: string | null | undefined;
     private config: WorkspaceConfiguration = {} as WorkspaceConfiguration;
     private isFormatting: boolean = false;
 
@@ -85,7 +85,7 @@ export default class Formatter {
             throw new Error("There is no document to get the language from");
         }
 
-        // Some formatters don't work if the document is not directly active, so we active it here
+        // Some formatters don't work if the document is not directly active, so we activate it here
         vsWindow.showTextDocument(document);
 
         this.config = workspace.getConfiguration("editor", document);
@@ -94,42 +94,62 @@ export default class Formatter {
             throw new Error("There is no config we can update");
         }
 
-        this.defaultFormatter = this.config.get<string>("defaultFormatter");
+        this.defaultFormatter = this.config.get<string | null>("defaultFormatter");
 
         const extensionConfig = workspace.getConfiguration("multiFormatter", document);
         this.formatters = extensionConfig.get<string[]>("formatterList", []);
-        if (this.formatters.length === 0
-            && this.defaultFormatter
-            && this.defaultFormatter !== "Jota0222.multi-formatter"
+        if (
+            this.formatters.length === 0 &&
+            this.defaultFormatter &&
+            this.defaultFormatter !== "Jota0222.multi-formatter"
         ) {
             this.logger.appendLine(`Added the default formatter ${this.defaultFormatter} to the list`);
             this.formatters.push(this.defaultFormatter);
         }
     }
 
-    async runFormatters() {
-        this.getFormattersForCurrentDocument();
-        
-        // The below check ensures we set editor.defaultFormatter in the same configuration location that it
-        // currently exists so we don't unexpectedly change where the user has their defaultFormatter set.
-        // The order of checks goes from the most specific to least specific location
-        // "?? {}" handles the defaultFormatter absent case
+    /**
+     * @description This function returns the configuration target to overwrite the `editor.defaultFormatter` in the
+     *   location that it currently exists, so we don't unexpectedly change other targets where the users have their
+     *   `defaultFormatter` set.
+     *
+     *   The order of checks goes from the most specific to least specific location.
+     */
+    getCurrentConfigurationTarget(): { configurationTarget: ConfigurationTarget; isLanguageSpecific: boolean } {
+        // "?? {}" handles the case where no config was found
         const {
-            workspaceLanguageValue,
-            workspaceValue,
             workspaceFolderLanguageValue,
             workspaceFolderValue,
-            globalLanguageValue
-        } = this.config.inspect('defaultFormatter') ?? {};
-        const [configurationTarget, isLanguageSpecific] = (
-            typeof workspaceLanguageValue === 'string'        ? [ConfigurationTarget.Workspace, true] : 
-            typeof workspaceValue === 'string'                ? [ConfigurationTarget.Workspace, false] :
-            typeof workspaceFolderLanguageValue === 'string'  ? [ConfigurationTarget.WorkspaceFolder, true] :
-            typeof workspaceFolderValue === 'string'          ? [ConfigurationTarget.WorkspaceFolder, false] :
-            typeof globalLanguageValue === 'string'           ? [ConfigurationTarget.Global, true] :
-            /* typeof globalValue === string|undefined */       [ConfigurationTarget.Global, false]
-        );
-        
+            workspaceLanguageValue,
+            workspaceValue,
+            globalLanguageValue,
+        } = this.config.inspect<string | null>("defaultFormatter") ?? {};
+
+        if (workspaceFolderLanguageValue !== undefined || workspaceFolderValue !== undefined) {
+            return {
+                configurationTarget: ConfigurationTarget.WorkspaceFolder,
+                isLanguageSpecific: workspaceFolderLanguageValue !== undefined,
+            };
+        }
+
+        if (workspaceLanguageValue !== undefined || workspaceValue !== undefined) {
+            return {
+                configurationTarget: ConfigurationTarget.Workspace,
+                isLanguageSpecific: workspaceLanguageValue !== undefined,
+            };
+        }
+
+        return {
+            configurationTarget: ConfigurationTarget.Global,
+            isLanguageSpecific: globalLanguageValue !== undefined,
+        };
+    }
+
+    async runFormatters() {
+        this.getFormattersForCurrentDocument();
+
+        const { configurationTarget, isLanguageSpecific } = this.getCurrentConfigurationTarget();
+
         for (const formatter of this.formatters) {
             this.logger.appendLine(`Executing ${this.formatAction} with ${formatter}`);
 
@@ -137,9 +157,9 @@ export default class Formatter {
             await commands.executeCommand(this.formatAction);
         }
 
-        if (this.config.get<boolean>('formatOnSave')) {
+        if (this.config.get<boolean>("formatOnSave")) {
             this.logger.appendLine("Saving after formatting on save");
-            await commands.executeCommand('workbench.action.files.saveWithoutFormatting');
+            await commands.executeCommand("workbench.action.files.saveWithoutFormatting");
         }
 
         // Return back to the original configuration
