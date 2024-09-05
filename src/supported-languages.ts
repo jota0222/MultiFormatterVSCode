@@ -6,6 +6,7 @@ export default [
     'html',
     'javascript',
     'javascriptreact',
+    'json',
     'markdown',
     'matlab',
     'mdx',

@@ -62,6 +62,7 @@
         "onLanguage:html",
         "onLanguage:javascript",
         "onLanguage:javascriptreact",
+        "onLanguage:json",
         "onLanguage:markdown",
         "onLanguage:matlab",
         "onLanguage:mdx",
