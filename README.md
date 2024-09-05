@@ -1,6 +1,6 @@
 # Multi Formatter Extension
 
-***VisualStudio Code Extension***
+**_VisualStudio Code Extension_**
 
 ## About the Extension
 
@@ -25,17 +25,11 @@ When the extension is installed for the first time, you will need to configure t
 {
     "[javascript]": {
         "editor.defaultFormatter": "vscode.typescript-language-features",
-        "multiFormatter.formatterList": [
-            "dbaeumer.vscode-eslint",
-            "vscode.typescript-language-features"
-        ],
+        "multiFormatter.formatterList": ["dbaeumer.vscode-eslint", "vscode.typescript-language-features"]
     },
     "[php]": {
         "editor.defaultFormatter": "Jota0222.multi-formatter",
-        "multiFormatter.formatterList": [
-            "wongjn.php-sniffer",
-            "bmewburn.vscode-intelephense-client"
-        ],
+        "multiFormatter.formatterList": ["wongjn.php-sniffer", "bmewburn.vscode-intelephense-client"]
     }
 }
 ```
@@ -62,27 +56,28 @@ This extension comes with 2 actions that you can configure the way you want and 
 
 ## Supported languages and frameworks
 
-* Astro
-* CSS
-* ERB
-* Haskell
-* HTML
-* JavaScript
-* Markdown
-* MATLAB
-* MDX
-* PHP
-* PostCSS
-* Python
-* React (JSX and TSX)
-* Robotframework
-* Rust
-* SCSS
-* Svelte
-* Twig
-* TypeScript
-* Vue
-* Ruby
+-   Astro
+-   CSS
+-   ERB
+-   Haskell
+-   HTML
+-   JavaScript
+-   JSON
+-   Markdown
+-   MATLAB
+-   MDX
+-   PHP
+-   PostCSS
+-   Python
+-   React (JSX and TSX)
+-   Robotframework
+-   Rust
+-   SCSS
+-   Svelte
+-   Twig
+-   TypeScript
+-   Vue
+-   Ruby
 
 It's probably easy to add more of them to the list as this depends on other formatters and it's not a formatter by itself, so feel free to add by yourself any language you want in the `package.json` under `activationEvents` and also in the file `src\supported-languages.ts`, test it and create a pull request to this repo 🧐👍.
 
