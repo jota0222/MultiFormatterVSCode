@@ -2,7 +2,7 @@
     "name": "multi-formatter",
     "displayName": "Multiple Formatters",
     "publisher": "Jota0222",
-    "version": "1.6.2",
+    "version": "1.7.0",
     "description": "It allows to use multiple formatters as a composite formatter in just one run in Visual Studio Code",
     "repository": {
         "url": "https://github.com/jota0222/MultiFormatterVSCode.git"
@@ -55,31 +55,7 @@
         }
     },
     "activationEvents": [
-        "onLanguage:astro",
-        "onLanguage:css",
-        "onLanguage:erb",
-        "onLanguage:haskell",
-        "onLanguage:html",
-        "onLanguage:javascript",
-        "onLanguage:javascriptreact",
-        "onLanguage:json",
-        "onLanguage:markdown",
-        "onLanguage:matlab",
-        "onLanguage:mdx",
-        "onLanguage:php",
-        "onLanguage:postcss",
-        "onLanguage:python",
-        "onLanguage:robotframework",
-        "onLanguage:ruby",
-        "onLanguage:rust",
-        "onLanguage:scss",
-        "onLanguage:svelte",
-        "onLanguage:twig",
-        "onLanguage:typescript",
-        "onLanguage:typescriptreact",
-        "onLanguage:vue-html",
-        "onLanguage:vue-postcss",
-        "onLanguage:vue"
+        "onLanguage"
     ],
     "devDependencies": {
         "@types/vscode": "^1.75.0",
