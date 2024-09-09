@@ -54,33 +54,6 @@ This extension comes with 2 actions that you can configure the way you want and 
 
 ![MultiFormat available actions](image/README/MultiFormat%20available%20actions.png)
 
-## Supported languages and frameworks
-
--   Astro
--   CSS
--   ERB
--   Haskell
--   HTML
--   JavaScript
--   JSON
--   Markdown
--   MATLAB
--   MDX
--   PHP
--   PostCSS
--   Python
--   React (JSX and TSX)
--   Robotframework
--   Rust
--   SCSS
--   Svelte
--   Twig
--   TypeScript
--   Vue
--   Ruby
-
-It's probably easy to add more of them to the list as this depends on other formatters and it's not a formatter by itself, so feel free to add by yourself any language you want in the `package.json` under `activationEvents` and also in the file `src\supported-languages.ts`, test it and create a pull request to this repo 🧐👍.
-
 # License
 
 This code is licensed under [GNU GPLv3](./LICENSE)
