@@ -2,7 +2,7 @@
     "name": "multi-formatter",
     "displayName": "Multiple Formatters",
     "publisher": "Jota0222",
-    "version": "1.6.2",
+    "version": "1.6.3",
     "description": "It allows to use multiple formatters as a composite formatter in just one run in Visual Studio Code",
     "repository": {
         "url": "https://github.com/jota0222/MultiFormatterVSCode.git"
@@ -49,6 +49,12 @@
                     "type": "array",
                     "default": [],
                     "description": "Ordered list of formatters",
+                    "scope": "language-overridable"
+                },
+                "multiFormatter.saveAfterFormat": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Save the document after formatting. When disabled, only a format triggered by saving the document will save it.",
                     "scope": "language-overridable"
                 }
             }
