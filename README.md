@@ -40,6 +40,23 @@ Also, as you can see in the examples, you can also set this extension as the def
 
 You can get the name of the formatters to use from the available options that appear when editing the `editor.defaultFormatter` directly from the json file.
 
+### Saving after formatting
+
+This extension runs the formatters after Visual Studio Code writes the file to disk. The formatters change the document again, so the extension saves it a second time. Without this second save, the result of a `Format on save` never reaches the disk. When you run the formatters yourself, the extension also saves the document.
+
+The setting `multiFormatter.saveAfterFormat` controls this second save, and the default value is `true`. With the value `false`, **`MultiFormat Document`**, **`MultiFormat Selection`**, and `Format Document` format the document and leave it unsaved. `Format on save` still saves the document. You can set this value globally, or for one language, as with `multiFormatter.formatterList`:
+
+```json
+{
+    "multiFormatter.saveAfterFormat": false,
+    "[markdown]": {
+        "editor.defaultFormatter": "Jota0222.multi-formatter",
+        "multiFormatter.formatterList": ["esbenp.prettier-vscode", "DavidAnson.vscode-markdownlint"],
+        "multiFormatter.saveAfterFormat": true
+    }
+}
+```
+
 ## Execution
 
 Once its configured you have 2 ways to run this formatter:

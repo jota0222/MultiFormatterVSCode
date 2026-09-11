@@ -23,7 +23,9 @@ export default class Formatter {
 
     private defaultFormatter: string | null | undefined;
     private config: WorkspaceConfiguration = {} as WorkspaceConfiguration;
+    private extensionConfig: WorkspaceConfiguration = {} as WorkspaceConfiguration;
     private isFormatting: boolean = false;
+    private savedWhileFormatting: boolean = false;
 
     constructor() {
         this.logger = vsWindow.createOutputChannel(this.OUTPUT_CHANNEL_NAME);
@@ -39,6 +41,12 @@ export default class Formatter {
             commands.registerCommand("multiFormatter.formatDocument", this.formatDocument.bind(this)),
             languages.registerDocumentRangeFormattingEditProvider(supportedLanguages, {
                 provideDocumentRangeFormattingEdits: this.selectFormattingAction.bind(this),
+            }),
+            // VSCode runs its format on save participant before this one, so a format it triggered is already running
+            workspace.onWillSaveTextDocument((event) => {
+                if (this.isFormatting && event.document === vsWindow.activeTextEditor?.document) {
+                    this.savedWhileFormatting = true;
+                }
             }),
         );
     }
@@ -73,6 +81,7 @@ export default class Formatter {
             return;
         }
 
+        this.savedWhileFormatting = false;
         this.isFormatting = true;
         await this.runFormatters();
         this.isFormatting = false;
@@ -96,8 +105,8 @@ export default class Formatter {
 
         this.defaultFormatter = this.config.get<string | null>("defaultFormatter");
 
-        const extensionConfig = workspace.getConfiguration("multiFormatter", document);
-        this.formatters = extensionConfig.get<string[]>("formatterList", []);
+        this.extensionConfig = workspace.getConfiguration("multiFormatter", document);
+        this.formatters = this.extensionConfig.get<string[]>("formatterList", []);
         if (
             this.formatters.length === 0 &&
             this.defaultFormatter &&
@@ -157,7 +166,8 @@ export default class Formatter {
             await commands.executeCommand(this.formatAction);
         }
 
-        if (this.config.get<boolean>("formatOnSave")) {
+        const saveAfterFormat = this.extensionConfig.get<boolean>("saveAfterFormat", true);
+        if (this.config.get<boolean>("formatOnSave") && (this.savedWhileFormatting || saveAfterFormat)) {
             this.logger.appendLine("Saving after formatting on save");
             await commands.executeCommand("workbench.action.files.saveWithoutFormatting");
         }
